@@ -12,9 +12,9 @@ SQL-based on-chain analytics for ADI Chain, published as a Dune dashboard, track
 
 - `daily_transactions.sql` — This shows the daily transaction trend of ADI Chain for the last 30 days post mainnet
 - `active_addresses.sql` — Total Active address on ADI Chain for the last 30 days post mainnet
-- `cumulative_addresses.sql` — growth of unique addresses over time
-- `volume_by_day.sql` — on-chain volume aggregated daily
-- `network_health.sql` — composite view of key network metrics
+- `top_20_holders.sql` — Top 20 addresses holding the $ADI token
+- `total_transaction.sql` — Total amount of transaction processed on the ADI Chain for the last 30 days post mainnet
+- `token_transfer.sql` — Total native token transfer, Total volume transferred, Avg transfer size, Largest single transfer. 30 days post mainnet
 
 ## About
 
