@@ -1,1 +1,4 @@
-
+SELECT 
+  COUNT(*) AS total_token_transfers_30d
+FROM adi_chain_ethereum.ADI_evt_Transfer
+WHERE evt_block_time >= NOW() - INTERVAL '30' DAY;
