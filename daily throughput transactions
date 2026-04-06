@@ -1,0 +1,12 @@
+SELECT
+  DATE_TRUNC('day', evt_block_time) AS date,
+  COUNT(*) AS daily_transfers,
+  ROUND(TRY_CAST(COUNT(*) AS DECIMAL) / 86400, 4) AS avg_tps
+FROM adi_chain_ethereum.ADI_evt_Transfer
+WHERE
+  evt_block_time >= CURRENT_TIMESTAMP - INTERVAL '30' DAY
+GROUP BY
+  1
+ORDER BY
+  1
+  
