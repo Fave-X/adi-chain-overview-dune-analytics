@@ -1,0 +1,16 @@
+WITH all_addresses AS (
+  SELECT
+    "from" AS address
+  FROM adi_chain_ethereum.adi_evt_transfer
+  WHERE
+    evt_block_time >= TRY_CAST('2025-12-09 00:00:00' AS TIMESTAMP) AND NOT "from" IS NULL
+  UNION
+  SELECT
+    "to" AS address
+  FROM adi_chain_ethereum.adi_evt_transfer
+  WHERE
+    evt_block_time >= TRY_CAST('2025-12-09 00:00:00' AS TIMESTAMP) AND NOT "to" IS NULL
+)
+SELECT
+  COUNT(DISTINCT address) AS total_active_addresses
+FROM all_addresses
