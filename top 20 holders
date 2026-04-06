@@ -1,0 +1,40 @@
+WITH current_balances AS (
+  -- Calculate net balance for each address
+  SELECT 
+    address,
+    SUM(net_change) / 1e18 AS balance
+  FROM (
+    -- Outgoing transfers (negative)
+    SELECT 
+      "from" AS address,
+      -SUM(value) AS net_change
+    FROM adi_chain_ethereum.ADI_evt_Transfer
+    GROUP BY 1
+    
+    UNION ALL
+    
+    -- Incoming transfers (positive)
+    SELECT 
+      "to" AS address,
+      SUM(value) AS net_change
+    FROM adi_chain_ethereum.ADI_evt_Transfer
+    GROUP BY 1
+  ) balance_changes
+  WHERE address IS NOT NULL
+  GROUP BY 1
+),
+total_supply AS (
+  SELECT SUM(balance) AS total
+  FROM current_balances
+  WHERE balance > 0
+)
+SELECT 
+  cb.address,
+  cb.balance AS token_balance,
+  ROUND((cb.balance / ts.total) * 100, 2) AS percentage_of_supply,
+  ROW_NUMBER() OVER (ORDER BY cb.balance DESC) AS rank
+FROM current_balances cb
+CROSS JOIN total_supply ts
+WHERE cb.balance > 0
+ORDER BY cb.balance DESC
+LIMIT 20;
