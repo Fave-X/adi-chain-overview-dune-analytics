@@ -1,0 +1,7 @@
+SELECT 
+  COUNT(*) AS total_native_token_transfers,
+  SUM(value / 1e18) AS total_volume_transferred,
+  AVG(value / 1e18) AS avg_transfer_size,
+  MAX(value / 1e18) AS largest_single_transfer
+FROM adi_chain_ethereum.ADI_evt_Transfer
+WHERE evt_block_time >= NOW() - INTERVAL '30' DAY;
